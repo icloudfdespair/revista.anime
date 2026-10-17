@@ -1,13 +1,75 @@
 ---
+import Base from '../layouts/Base.astro';
+import { site } from '../config/site';
+const side = [['Cine','Titular de ejemplo uno'],['Anime','Titular de ejemplo dos'],['Manga','Titular de ejemplo tres'],['Artículo','Titular de ejemplo cuatro']];
+const generos = ['Acción','Aventura','Comedia','Drama','Fantasía','Romance','Sci-Fi','Slice of Life','Seinen','Shonen','Terror'];
+const estrenos = generos.slice(0, 6).map((g, i) => ({ g, t: `Anime de ejemplo ${i + 1}`, h: (i * 57 + 210) % 360 }));
+const cal = [['00','MES','Anime de ejemplo 1','Confirmada'],['00','MES','Anime de ejemplo 2','Estimada'],['00','MES','Anime de ejemplo 3','Estimada']];
+const foros = ['Anime y temporadas actuales','Manga y novedades','Recomendaciones','Teorías y debates','Noticias de la industria','Off-topic y comunidad'];
+const noticias = [['Anime','Noticia de ejemplo dos'],['Manga','Noticia de ejemplo tres'],['Industria','Noticia de ejemplo cuatro']];
+const guias = [['Guía','Guía de ejemplo dos'],['Artículo','Artículo de ejemplo tres'],['Artículo','Artículo de ejemplo cuatro']];
 ---
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Revista de anime y manga (prueba)</title>
-  </head>
-  <body>
-    <h1>Revista de anime y manga</h1>
-    <p>Web de prueba. Si ves esto, la publicación funciona.</p>
-  </body>
-</html>
+<Base title={`${site.name} · ${site.tagline}`}>
+  <div class="wrap portal">
+    <aside class="side-l" aria-label="Menú lateral">
+      {[['Comunidad',['Foros','Miembros','Eventos']],['Explorar',['Noticias','Anime','Manga','Estrenos','Recomendaciones','Guías','Reseñas']],['Enlaces',['Contacto','Privacidad','Cookies']]].map(([t, items]) => (
+        <section class="box"><h2>{t}</h2>
+          <ul class="list">{items.map((i) => <li class="soon-i">{i} <small>(próximamente)</small></li>)}</ul>
+        </section>
+      ))}
+    </aside>
+
+    <main id="main">
+      <h1 class="vh">{site.name}: portada</h1>
+      <p class="demo"><strong>Maqueta de la Fase 1.</strong> Todos los títulos, imágenes y datos son de ejemplo. No son noticias ni fechas reales.</p>
+
+      <section class="hero" aria-label="Noticia destacada">
+        <div class="hero__main">
+          <span class="tag">NOTICIAS · EJEMPLO</span>
+          <h2>Titular de la noticia destacada</h2>
+          <p>Breve descripción de ejemplo de la noticia principal.</p>
+          <span class="btn" title="Próximamente">Leer más</span>
+        </div>
+        <ul class="hero__side">
+          {side.map(([c, t], i) => <li><span class="ph" style={`--h:${i * 70 + 200}`}></span><span>{t}<br /><span class="tag">{c}</span></span></li>)}
+        </ul>
+      </section>
+
+      <section class="box"><h2>Últimos estrenos</h2>
+        <div class="row6">{estrenos.map((e) => <div><div class="ph" style={`--h:${e.h}`}>Imagen de ejemplo</div><p><b>{e.t}</b><br /><small>{e.g}</small></p></div>)}</div>
+      </section>
+
+      <div class="cols2">
+        <section class="box"><h2>Noticias recientes</h2>
+          <div class="in">
+            <div class="feat"><div class="ph" style="--h:230"></div><h3>Noticia de ejemplo uno</h3><p class="note">Extracto de ejemplo. · Fecha: pendiente</p></div>
+            {noticias.map(([c, t], i) => <div class="mini"><span class="ph" style={`--h:${i * 80 + 20}`}></span><span><b>{t}</b><br /><span class="tag">{c}</span></span></div>)}
+          </div>
+        </section>
+        <section class="box"><h2>Artículos y guías</h2>
+          <div class="in">
+            <div class="feat"><div class="ph" style="--h:300"></div><h3>Guía de ejemplo uno</h3><p class="note">Extracto de ejemplo. · Fecha: pendiente</p></div>
+            {guias.map(([c, t], i) => <div class="mini"><span class="ph" style={`--h:${i * 60 + 120}`}></span><span><b>{t}</b><br /><span class="tag">{c}</span></span></div>)}
+          </div>
+        </section>
+      </div>
+
+      <section class="box"><h2>Géneros populares</h2>
+        <div class="genres">{generos.map((g, i) => <span class="ph" style={`--h:${i * 31 + 190}`}>{g}</span>)}</div>
+      </section>
+    </main>
+
+    <aside aria-label="Panel derecho">
+      <section class="box"><h2>Calendario de estrenos</h2>
+        {cal.map(([d, m, t, s]) => <div class="cal"><time><span>{d}</span><small>{m}</small></time><span>{t}</span><span class={`st ${s === 'Confirmada' ? 'ok' : ''}`}>{s}</span></div>)}
+        <div class="in"><p class="note">Ejemplo. El calendario real, con filtros y fuente de cada fecha, llega en una fase posterior.</p></div>
+      </section>
+      <section class="box"><h2>Foros</h2>
+        <div class="in">
+          <p class="note"><strong>Aún no disponibles.</strong> Los foros necesitan cuentas, moderación y una base de datos. Categorías previstas:</p>
+        </div>
+        <ul class="list">{foros.map((f) => <li class="soon-i">{f}</li>)}</ul>
+      </section>
+    </aside>
+  </div>
+</Base>

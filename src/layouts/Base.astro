@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+import { site } from '../config/site';
+const { title = site.name, description = site.tagline } = Astro.props;
+const nav = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Foros' }, { label: 'Noticias' }, { label: 'Anime' }, { label: 'Manga' },
+  { label: 'Guías' }, { label: 'Reseñas' }, { label: 'Calendario' }, { label: 'Comunidad' },
+];
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Saltar al contenido</a>
+    <header class="masthead">
+      <div class="wrap">
+        <p class="logo">
+          <strong>{site.name}</strong>
+          <span>{site.tagline}<br />{site.taglineJa}</span>
+        </p>
+      </div>
+    </header>
+    <nav class="nav" aria-label="Principal">
+      <ul class="wrap">
+        {nav.map((n) => (
+          <li>
+            {n.href
+              ? <a href={n.href} aria-current={Astro.url.pathname === n.href ? 'page' : undefined}>{n.label}</a>
+              : <span class="soon" title="Próximamente">{n.label}</span>}
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <slot />
+    <footer class="foot">
+      <div class="wrap">
+        <p>Sitio independiente y no oficial: no está afiliado a ninguna franquicia, estudio o editorial. Los nombres y marcas pertenecen a sus propietarios.</p>
+      </div>
+    </footer>
+  </body>
+</html>
